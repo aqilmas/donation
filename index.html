@@ -1,382 +1,705 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>donation</title>
+    <title>Sedekah Jariyah - Investasi Akhirat</title>
+    
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Fonts: Satoshi (Modern UI), Lora (Elegant Headings), Amiri (Arabic) -->
-    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Lora:wght@500&display=swap" rel="stylesheet">
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#667eea',
+                        secondary: '#764ba2',
+                        emerald: '#10b981',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        arabic: ['Amiri', 'serif'],
+                    },
+                    animation: {
+                        'shine': 'shine 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
+        /* --- Base Styles --- */
         :root {
-            --bg-canvas: #FCFCFC;
-            --bg-subtle: #F5F7F6;
-            --text-primary: #121212;
-            --text-secondary: #5C5C5C;
-            --brand-green: #1B4332;
-            --brand-green-dark: #122B22;
-            --border-color: #EAEAEA;
-            --shadow-light: rgba(27, 67, 50, 0.04);
-            --shadow-medium: rgba(27, 67, 50, 0.08);
-            --font-sans: 'Satoshi', sans-serif;
-            --font-serif: 'Lora', serif;
-            --font-arabic: 'Amiri', serif;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.6);
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-canvas);
-            color: var(--text-primary);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        .dark {
+            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.15);
         }
-        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-on-load { animation: fadeIn 1.2s ease-out; }
+        body { font-family: 'Poppins', sans-serif; overflow-x: hidden; }
 
-        /* HEADER */
-        .hero-header {
-            padding: 120px 0;
-            background: radial-gradient(ellipse at 50% -50%, var(--bg-subtle) 0%, transparent 80%);
+        /* --- Glassmorphism --- */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
         }
-        .hero-content { text-align: center; max-width: 840px; margin: 0 auto; }
-        .hero-header h1 {
-            font-family: var(--font-serif);
-            font-size: clamp(3rem, 7vw, 5rem);
-            line-height: 1.15;
-            margin-bottom: 24px;
-            text-wrap: balance;
-        }
-        .hero-header h1 .highlight { color: var(--brand-green); }
-        .hero-header p {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            max-width: 640px;
-            margin: 0 auto 48px;
-            line-height: 1.75;
-        }
-        .button {
-            display: inline-block;
-            text-decoration: none;
-            font-weight: 700;
-            padding: 16px 36px;
-            border-radius: 10px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .button.primary {
-            background-color: var(--brand-green);
-            color: #fff;
-            box-shadow: 0 4px 6px var(--shadow-light), 0 1px 3px var(--shadow-light);
-        }
-        .button.primary:hover {
-            background-color: var(--brand-green-dark);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px var(--shadow-medium), 0 6px 6px var(--shadow-medium);
-        }
+
+        /* --- Shimmer Effects (KILAUAN TEKS) --- */
         
-        /* SECTIONS & DIVIDER */
-        .content-section { padding: 120px 0; }
-        .section-header { text-align: center; margin-bottom: 80px; }
-        .section-header h2 {
-            font-family: var(--font-serif);
-            font-size: clamp(2.75rem, 5vw, 3.5rem);
-        }
-        .section-divider {
-            height: 1px;
-            width: 100%;
-            max-width: 150px;
-            background-color: var(--border-color);
-            margin: 0 auto;
-        }
-
-        /* INLINE QUOTE SECTION */
-        .quote-section {
-            padding: 100px 0;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .quote-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-        }
-        .quote-arabic {
-            font-family: var(--font-arabic);
-            font-size: 2rem;
-            text-align: right;
+        /* 1. Kilauan Hijau untuk Arab */
+        .shimmer-arabic {
+            font-family: 'Amiri', serif;
             direction: rtl;
+            line-height: 2.4;
+            /* Gradient Hijau Zamrud ke Putih */
+            background: linear-gradient(
+                110deg, 
+                #059669 20%, 
+                #34d399 30%, 
+                #ffffff 50%, 
+                #34d399 70%, 
+                #059669 80%
+            );
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 4s linear infinite;
+            text-shadow: 0px 4px 10px rgba(16, 185, 129, 0.1); 
+            font-weight: 700;
         }
-        .quote-separator {
-            width: 1px;
-            height: 50px;
-            background: var(--border-color);
-        }
-        .quote-translation {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 520px;
-            line-height: 1.7;
-        }
-        
-        /* DONATION */
-        .donation-section { background-color: var(--bg-subtle); }
-        .donation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
-        .donation-card {
-            background-color: var(--bg-canvas); border: 1px solid var(--border-color);
-            border-radius: 16px; padding: 32px; transition: all 0.3s ease;
-        }
-        .donation-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px var(--shadow-medium), 0 10px 10px -5px var(--shadow-light);
-        }
-        .donation-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
-        .donation-icon { font-size: 1.5rem; color: var(--brand-green); }
-        .donation-title { font-family: var(--font-serif); font-size: 1.75rem; }
-        .account-info { text-align: center; margin-bottom: 32px; }
-        .account-number {
-            font-family: 'SF Mono', 'Courier New', monospace;
-            font-size: 1.5rem; margin-bottom: 8px;
-        }
-        .account-name { color: var(--text-primary); font-weight: 700; }
-        .qris-wrapper { background-color: #fff; padding: 16px; border-radius: 12px; }
-        .qris-image {
-            display: block;
-            max-width: 160px;
-            margin: 0 auto;
-        }
-        .copy-button {
-            width: 100%; background-color: var(--bg-subtle); color: var(--text-primary);
-            border: 1px solid var(--border-color); padding: 14px;
-            border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.2s ease;
-        }
-        .copy-button:hover { background-color: #EAEAEA; border-color: #D0D0D0; }
 
-        /* FAQ Section */
-        .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border-bottom: 1px solid var(--border-color); }
-        .faq-item summary {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 24px 0; font-size: 1.25rem;
-            font-weight: 500; cursor: pointer;
-            list-style: none; /* Remove default marker */
+        /* 2. Kilauan Emas untuk Arti */
+        .shimmer-gold {
+            /* Gradient Emas Mewah */
+            background: linear-gradient(
+                110deg, 
+                #b45309 20%, 
+                #f59e0b 30%, 
+                #fffbeb 50%, 
+                #f59e0b 70%, 
+                #b45309 80%
+            );
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+            font-weight: 600;
         }
-        .faq-item summary::-webkit-details-marker { display: none; } /* Chrome/Safari */
-        .faq-icon {
-            flex-shrink: 0; margin-left: 16px;
-            transition: transform 0.3s ease;
-        }
-        .faq-answer {
-            padding: 0 8px 32px 8px; color: var(--text-secondary);
-            line-height: 1.75;
-        }
-        .faq-answer p { margin-bottom: 1em; }
-        .faq-answer strong { color: var(--text-primary); font-weight: 700; }
-        .faq-answer em { font-style: italic; }
-        .faq-answer ul { list-style-position: inside; padding-left: 8px; }
-        .faq-answer blockquote {
-            border-left: 3px solid var(--brand-green);
-            padding-left: 16px; margin: 16px 0;
-            font-style: italic; color: #333;
-        }
-        .faq-item[open] > summary .faq-icon { transform: rotate(45deg); }
 
-        /* FOOTER & BACK TO TOP */
-        .site-footer { padding: 100px 0; text-align: center; }
-        .footer-logo { font-family: var(--font-serif); font-size: 2rem; margin-bottom: 16px; }
-        .footer-text { color: var(--text-secondary); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.7; }
-        .social-media-links a {
-            color: #A0A0A0; font-size: 1.5rem; margin: 0 16px;
-            transition: all 0.3s ease; display: inline-block;
+        @keyframes shine {
+            to { background-position: 200% center; }
         }
-        .social-media-links a:hover { color: var(--brand-green); transform: translateY(-4px); }
-        #back-to-top-btn {
-            position: fixed; bottom: 30px; right: 30px;
-            width: 50px; height: 50px; background-color: var(--brand-green);
-            color: #fff; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden; transform: scale(0.8);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            z-index: 100; text-decoration: none;
-        }
-        #back-to-top-btn.visible { opacity: 1; visibility: visible; transform: scale(1); }
 
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            .quote-container { flex-direction: column; gap: 24px; text-align: center; }
-            .quote-separator { display: none; }
-            .quote-arabic { text-align: center; }
+        /* --- Sky Animation (Bintang & Bulan) --- */
+        .header-bg {
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            position: relative;
+            overflow: hidden;
         }
-        @media (max-width: 768px) {
-            .container { padding: 0 24px; }
+
+        /* Bulan Glowing */
+        .moon {
+            width: 100px;
+            height: 100px;
+            background: transparent;
+            border-radius: 50%;
+            box-shadow: -15px 15px 0 5px #fde047;
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            filter: drop-shadow(0 0 25px rgba(253, 224, 71, 0.6));
+            animation: moonFloat 8s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes moonFloat {
+            0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 25px rgba(253, 224, 71, 0.6)); }
+            50% { transform: translateY(-15px); filter: drop-shadow(0 0 40px rgba(253, 224, 71, 0.9)); }
+        }
+
+        /* Bintang Statis */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+            z-index: 1;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px white; }
+            100% { opacity: 0; transform: scale(0.3); }
+        }
+
+        /* Bintang Jatuh (Shooting Star) */
+        .shooting-star {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 2px;
+            background: linear-gradient(-45deg, rgba(255, 255, 255, 1), rgba(0, 0, 255, 0));
+            border-radius: 999px;
+            filter: drop-shadow(0 0 6px rgba(105, 155, 255, 1));
+            animation: tail 3000ms ease-in-out infinite, shooting 3000ms ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: calc(50% - 1px);
+            right: 0;
+            height: 2px;
+            background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(255, 255, 255, 1), rgba(0, 0, 255, 0));
+            transform: translateX(50%) rotateZ(45deg);
+            border-radius: 100%;
+            animation: shining 3000ms ease-in-out infinite;
+        }
+
+        @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
+        @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
+        @keyframes shining { 0% { width: 0; } 50% { width: 30px; } 100% { width: 0; } }
+
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #667eea, #764ba2); border-radius: 5px; }
+
+        /* --- Loader --- */
+        .loader-wrapper {
+            position: fixed; inset: 0; background: #0f172a; z-index: 9999;
+            display: flex; justify-content: center; align-items: center; transition: opacity 0.5s;
         }
     </style>
 </head>
-<body id="top">
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
 
-    <header class="hero-header animate-on-load">
-        <div class="container hero-content">
-            <h1>Jejak <span class="highlight">Kebaikan</span> yang Tak Terputus</h1>
-            <p>Setiap amanah yang Anda titipkan adalah benih harapan yang kami tanam. Bersama, kita wujudkan menjadi pohon kebaikan yang rindang dan bermanfaat selamanya.</p>
-            <a href="#donation" class="button primary">Mulai Berdonasi</a>
+    <!-- Loader -->
+    <div id="loader" class="loader-wrapper">
+        <div class="relative flex flex-col items-center">
+            <div class="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <i class="fas fa-moon text-yellow-400 text-3xl absolute top-3.5 animate-pulse"></i>
+            <h2 class="text-xl font-bold text-white mt-4 tracking-widest">SEDEKAH JARIYAH</h2>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="fixed top-6 left-6 z-50 glass-card p-3 rounded-full hover:scale-110 transition duration-300 group shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+        <i class="fas fa-moon text-xl group-hover:rotate-12 transition text-gray-700 dark:text-yellow-300"></i>
+    </button>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-40 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center glass-card rounded-b-2xl mt-0 md:mt-4 md:rounded-2xl mx-auto max-w-6xl">
+            <a href="#" class="flex items-center space-x-2 group">
+                <div class="w-10 h-10 bg-gradient-to-tr from-emerald-500 to-teal-400 rounded-lg flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <span class="font-bold text-xl tracking-wide">Sedekah<span class="text-emerald-600 dark:text-emerald-400">Yuk</span></span>
+            </a>
+            
+            <div class="hidden md:flex space-x-8 font-medium items-center">
+                <a href="#beranda" class="hover:text-emerald-500 transition relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-emerald-500 after:bottom-0 after:left-0 hover:after:w-full after:transition-all">Beranda</a>
+                <a href="#hadits" class="hover:text-emerald-500 transition">Keutamaan</a>
+                <a href="#program" class="hover:text-emerald-500 transition">Program</a>
+                <a href="#donasi" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-2.5 rounded-full hover:shadow-[0_0_20px_rgba(16,185,129,0.5)] transition transform hover:-translate-y-0.5 font-semibold">
+                    Donasi Sekarang
+                </a>
+            </div>
+
+            <button class="md:hidden text-2xl" id="mobileBtn"><i class="fas fa-bars"></i></button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden absolute top-full left-0 w-full glass-card p-6 md:hidden flex-col space-y-4 shadow-xl border-t border-gray-200 dark:border-gray-700">
+            <a href="#beranda" class="block hover:text-emerald-500">Beranda</a>
+            <a href="#hadits" class="block hover:text-emerald-500">Keutamaan</a>
+            <a href="#program" class="block hover:text-emerald-500">Program</a>
+            <a href="#donasi" class="block text-emerald-600 font-bold">Donasi Sekarang</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="beranda" class="header-bg min-h-screen flex items-center relative pt-24 overflow-hidden">
+        <div id="stars-container"></div>
+        <div id="shooting-stars-container"></div>
+        <div class="moon"></div>
+        
+        <div class="container mx-auto px-6 relative z-10 text-center text-white">
+            <div data-aos="zoom-in-up" data-aos-duration="1200">
+                <div class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md text-sm mb-6 border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    <span class="animate-pulse text-yellow-400">✨</span> Mari Berlomba dalam Kebaikan
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl font-bold mb-8 leading-tight drop-shadow-xl">
+                    Investasi Abadi <br> 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200">Menuju Surga-Nya</span>
+                </h1>
+                
+                <!-- KARTU AYAT DENGAN KILAUAN -->
+                <div class="glass-card bg-black/30 p-8 rounded-3xl max-w-4xl mx-auto mb-10 border border-white/10 transform hover:scale-[1.01] transition duration-500 shadow-2xl relative overflow-hidden group">
+                    <!-- Ornamen -->
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Islamic_Pattern_element.svg/1024px-Islamic_Pattern_element.svg.png" class="absolute top-0 right-0 w-24 h-24 opacity-10 -mr-4 -mt-4 rotate-90 filter invert">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Islamic_Pattern_element.svg/1024px-Islamic_Pattern_element.svg.png" class="absolute bottom-0 left-0 w-24 h-24 opacity-10 -ml-4 -mb-4 -rotate-90 filter invert">
+
+                    <!-- Arab Hijau -->
+                    <p class="shimmer-arabic text-3xl md:text-5xl mb-6 leading-relaxed py-2">
+                        مَّثَلُ ٱلَّذِينَ يُنفِقُونَ أَمْوَٰلَهُمْ فِى سَبِيلِ ٱللَّهِ كَمَثَلِ حَبَّةٍ أَنۢبَتَتْ سَبْعَ سَنَابِلَ فِى كُلِّ سُنۢبُلَةٍ مِّائَةُ حَبَّةٍ
+                    </p>
+                    
+                    <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-white/50 to-transparent mx-auto mb-6"></div>
+
+                    <!-- Arti Emas -->
+                    <p class="shimmer-gold text-lg md:text-xl italic">
+                        "Perumpamaan (nafkah yang dikeluarkan oleh) orang-orang yang menafkahkan hartanya di jalan Allah adalah serupa dengan sebutir benih yang menumbuhkan tujuh bulir, pada tiap-tiap bulir seratus biji..." <br>
+                        <span class="text-sm font-normal text-gray-300 mt-2 block">(QS. Al-Baqarah: 261)</span>
+                    </p>
+                </div>
+
+                <div class="flex flex-col md:flex-row justify-center gap-5">
+                    <a href="#donasi" class="relative overflow-hidden bg-gradient-to-r from-yellow-500 to-amber-600 text-white px-10 py-4 rounded-full font-bold shadow-[0_0_20px_rgba(245,158,11,0.6)] hover:shadow-[0_0_30px_rgba(245,158,11,0.8)] transition transform hover:-translate-y-1 group">
+                        <span class="relative z-10 flex items-center gap-3">
+                            <i class="fas fa-heart text-red-200 animate-pulse"></i> Sedekah Sekarang
+                        </span>
+                        <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none rotate-180 z-20">
+            <svg class="relative block w-[calc(100%+1.3px)] h-[80px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="fill-gray-50 dark:fill-gray-950"></path>
+            </svg>
         </div>
     </header>
 
-    <main>
-        <section class="quote-section">
-            <div class="container quote-container">
-                <div class="quote-arabic">لَنْ تَنَالُوا الْبِرَّ حَتّٰى تُنْفِقُوْا مِمَّا تُحِبُّوْنَ</div>
-                <div class="quote-separator"></div>
-                <div class="quote-translation">"Kamu sekali-kali tidak akan memperoleh <strong>kebajikan (yang sempurna)</strong> sebelum kamu menafkahkan sebagian <em>harta yang kamu cintai</em>."<br>(QS. Ali 'Imran: 92)</div>
-            </div>
-        </section>
-
-        <!-- BAGIAN GALERI TELAH DIHAPUS DARI SINI -->
-
-        <section id="donation" class="content-section donation-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Salurkan Kebaikan Anda</h2>
+    <!-- Stats Section -->
+    <section class="py-12 relative z-20 px-4 -mt-16">
+        <div class="container mx-auto max-w-5xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card bg-white dark:bg-slate-800/80 p-6 rounded-2xl text-center transform hover:scale-105 transition duration-300 shadow-xl" data-aos="fade-up">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-2xl rotate-3 flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="text-4xl font-bold mb-1 text-gray-800 dark:text-white">1,250+</h3>
+                    <p class="text-gray-500 dark:text-gray-400 font-medium">Donatur Terdaftar</p>
                 </div>
-                <div class="donation-grid">
-                    <div class="donation-card">
-                        <div class="donation-header">
-                            <i class="fa-solid fa-qrcode donation-icon"></i>
-                            <h3 class="donation-title">QRIS</h3>
-                        </div>
-                        <div class="qris-wrapper"><img src="qris.jpg" alt="QRIS Code" class="qris-image"></div>
+                <div class="glass-card bg-white dark:bg-slate-800/80 p-6 rounded-2xl text-center transform hover:scale-105 transition duration-300 shadow-xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-2xl -rotate-3 flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                        <i class="fas fa-hand-holding-usd"></i>
                     </div>
-                    <div class="donation-card">
-                        <div class="donation-header">
-                            <i class="fa-solid fa-wallet donation-icon"></i>
-                            <h3 class="donation-title">E-Wallet</h3>
-                        </div>
-                        <div class="account-info">
-                            <p class="account-number" id="dana-number">087838080852</p>
-                            <p class="account-name">Amanah Kebaikan bersama</p>
-                        </div>
-                        <button class="copy-button" onclick="copyToClipboard('dana-number', this)">Salin Nomor</button>
+                    <h3 class="text-4xl font-bold mb-1 text-gray-800 dark:text-white">Rp 850jt+</h3>
+                    <p class="text-gray-500 dark:text-gray-400 font-medium">Amanah Tersalurkan</p>
+                </div>
+                <div class="glass-card bg-white dark:bg-slate-800/80 p-6 rounded-2xl text-center transform hover:scale-105 transition duration-300 shadow-xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-2xl rotate-3 flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                        <i class="fas fa-mosque"></i>
                     </div>
-                    <div class="donation-card">
-                        <div class="donation-header">
-                            <i class="fa-solid fa-building-columns donation-icon"></i>
-                            <h3 class="donation-title">Bank Transfer</h3>
-                        </div>
-                        <div class="account-info">
-                            <p class="account-number" id="bsi-number">maaf blom ada</p>
-                            <p class="account-name">Amanah Kebaikan bersama</p>
-                        </div>
-                        <button class="copy-button" onclick="copyToClipboard('bsi-number', this)">Salin Rekening</button>
-                    </div>
+                    <h3 class="text-4xl font-bold mb-1 text-gray-800 dark:text-white">50+</h3>
+                    <p class="text-gray-500 dark:text-gray-400 font-medium">Masjid Dibantu</p>
                 </div>
             </div>
-        </section>
-        
-        <div class="container">
-            <div class="section-divider"></div>
         </div>
+    </section>
 
-        <section class="content-section" style="padding-top: 80px;">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Tanya Jawab Seputar Kebaikan</h2>
+    <!-- Hadith Section -->
+    <section id="hadits" class="py-24 px-6 relative overflow-hidden">
+        <div class="container mx-auto relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-emerald-600 dark:text-emerald-400 font-bold tracking-[0.2em] uppercase text-sm bg-emerald-100 dark:bg-emerald-900/30 px-4 py-1 rounded-full">Motivasi</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-4 text-gray-800 dark:text-white">Janji Allah SWT</h2>
+                <div class="w-24 h-1.5 bg-gradient-to-r from-emerald-400 to-teal-600 mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <!-- Hadith 1 -->
+                <div class="glass-card bg-white dark:bg-slate-900 p-10 rounded-3xl border border-gray-100 dark:border-gray-800 hover:border-emerald-500 transition-all duration-300 group shadow-lg" data-aos="fade-right">
+                    <i class="fas fa-quote-right text-5xl text-gray-100 dark:text-gray-800 absolute top-8 right-8 group-hover:text-emerald-100 transition-colors"></i>
+                    
+                    <p class="shimmer-arabic text-3xl text-right mb-6 leading-loose border-b border-dashed border-gray-200 dark:border-gray-700 pb-4">
+                        مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ
+                    </p>
+                    <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">Tidak Mengurangi Harta</h3>
+                    <p class="shimmer-gold text-lg italic">"Sedekah itu tidak akan mengurangi harta." (HR. Muslim)</p>
                 </div>
-                <div class="faq-container">
-                    <details class="faq-item">
-                        <summary>
-                            <span>Mengapa kita dianjurkan untuk bersedekah?</span>
-                            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
-                        </summary>
-                        <div class="faq-answer">
-                            <p>Bersedekah adalah wujud nyata dari <strong>rasa syukur</strong> kita kepada Allah SWT atas segala nikmat yang telah diberikan. Ini bukan sekadar tentang memberi, tetapi tentang membersihkan harta dan jiwa. Dengan berbagi, kita mengakui bahwa semua yang kita miliki adalah titipan yang harus dimanfaatkan di jalan kebaikan.</p>
-                            <blockquote>"Ambillah zakat dari sebagian harta mereka, dengan zakat itu kamu membersihkan dan mensucikan mereka." <br><em>(QS. At-Taubah: 103)</em></blockquote>
-                        </div>
-                    </details>
-                    <details class="faq-item">
-                        <summary>
-                            <span>Apa saja manfaat utama dari bersedekah?</span>
-                            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
-                        </summary>
-                        <div class="faq-answer">
-                            <p>Manfaat sedekah sangat luas, baik di dunia maupun di akhirat. Beberapa di antaranya adalah:</p>
-                            <ul>
-                                <li><strong>Menghapus Dosa:</strong> Rasulullah SAW bersabda, <em>"Sedekah itu dapat menghapus dosa sebagaimana air memadamkan api." (HR. Tirmidzi)</em></li>
-                                <li><strong>Melipatgandakan Harta:</strong> Allah berjanji akan melipatgandakan rezeki bagi mereka yang gemar bersedekah, seperti yang digambarkan dalam QS. Al-Baqarah: 261.</li>
-                                <li><strong>Memberi Ketenangan Jiwa:</strong> Tindakan memberi secara tulus dapat mengurangi stres dan memberikan perasaan bahagia serta damai yang mendalam.</li>
-                                <li><strong>Pahala yang Terus Mengalir:</strong> Melalui <em>sedekah jariyah</em> (seperti membangun sumur, masjid, atau menyebarkan ilmu), pahalanya akan terus mengalir bahkan setelah kita meninggal dunia.</li>
-                            </ul>
-                        </div>
-                    </details>
-                    <details class="faq-item">
-                        <summary>
-                            <span>Apakah sedekah harus selalu dalam bentuk uang?</span>
-                            <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
-                        </summary>
-                        <div class="faq-answer">
-                            <p>Tidak. Pintu sedekah sangatlah luas. Islam mengajarkan bahwa kebaikan tidak hanya terbatas pada materi. Rasulullah SAW bersabda bahwa <strong>"Senyummu di hadapan saudaramu adalah sedekah."</strong></p>
-                            <p>Bentuk sedekah lainnya bisa berupa menyingkirkan gangguan dari jalan, mengajarkan ilmu yang bermanfaat, memberikan nasihat yang baik, bahkan menafkahi keluarga sendiri dengan niat yang benar. Setiap perbuatan baik yang dilakukan dengan ikhlas untuk mencari ridha Allah adalah bentuk sedekah.</p>
-                        </div>
-                    </details>
+
+                <!-- Hadith 2 -->
+                <div class="glass-card bg-white dark:bg-slate-900 p-10 rounded-3xl border border-gray-100 dark:border-gray-800 hover:border-yellow-500 transition-all duration-300 group shadow-lg" data-aos="fade-left">
+                    <i class="fas fa-quote-right text-5xl text-gray-100 dark:text-gray-800 absolute top-8 right-8 group-hover:text-yellow-100 transition-colors"></i>
+                    
+                    <p class="shimmer-arabic text-3xl text-right mb-6 leading-loose border-b border-dashed border-gray-200 dark:border-gray-700 pb-4">
+                        وَالصَّدَقَةُ تُطْفِئُ الْخَطِيئَةَ
+                    </p>
+                    <h3 class="font-bold text-xl mb-3 text-gray-800 dark:text-white">Penghapus Dosa</h3>
+                    <p class="shimmer-gold text-lg italic">"Sedekah dapat menghapus dosa sebagaimana air memadamkan api." (HR. Tirmidzi)</p>
                 </div>
             </div>
-        </section>
-    </main>
-    
-    <footer class="site-footer">
-        <div class="container">
-            <h3 class="footer-logo">Amanah Kebaikan Bersama</h3>
-            <p class="footer-text">Terima kasih telah menjadi bagian dari gerakan kebaikan ini. Setiap kontribusi Anda, besar maupun kecil, adalah bahan bakar yang menjaga cahaya harapan tetap menyala bagi mereka yang membutuhkan.</p>
-            <div class="social-media-links">
-                <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="#" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+    </section>
+
+    <!-- Donation Section -->
+    <section id="donasi" class="py-20 bg-gradient-to-b from-gray-50 to-gray-200 dark:from-gray-950 dark:to-gray-900 relative">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-5xl mx-auto glass-card bg-white dark:bg-slate-800 rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/40 flex flex-col md:flex-row">
+                
+                <!-- Panel Kiri: Warna Gelap di Dark Mode, Terang di Light Mode -->
+                <div class="md:w-5/12 p-10 flex flex-col justify-between relative overflow-hidden transition-colors duration-300
+                            bg-emerald-50 text-gray-800 
+                            dark:bg-gradient-to-br dark:from-emerald-600 dark:to-teal-800 dark:text-white">
+                    
+                    <!-- Decor Circles -->
+                    <div class="absolute -top-10 -left-10 w-40 h-40 bg-emerald-200 dark:bg-white opacity-20 dark:opacity-10 rounded-full blur-2xl"></div>
+                    <div class="absolute bottom-10 right-10 w-32 h-32 bg-yellow-400 opacity-10 dark:opacity-20 rounded-full blur-3xl"></div>
+                    
+                    <div class="relative z-10">
+                        <h3 class="text-3xl font-bold mb-4 font-serif text-emerald-900 dark:text-white">
+                            Salurkan <br>Kebaikan
+                        </h3>
+                        <!-- Teks Deskripsi -->
+                        <p class="mb-8 leading-relaxed text-gray-600 dark:text-emerald-100 font-medium">
+                            Pilih nominal donasi terbaikmu. Setiap rupiah akan menjadi saksi di akhirat kelak.
+                        </p>
+                        
+                        <div class="space-y-5">
+                            <!-- Poin 1 -->
+                            <div class="flex items-center space-x-4 p-4 rounded-xl backdrop-blur-sm transition border
+                                        bg-white border-emerald-100 shadow-sm
+                                        dark:bg-white/10 dark:border-white/10 dark:shadow-none dark:hover:bg-white/20">
+                                
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0
+                                            bg-emerald-100 text-emerald-600
+                                            dark:bg-white dark:text-emerald-600">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <span class="font-bold text-gray-700 dark:text-white text-sm">100% Amanah & Transparan</span>
+                            </div>
+
+                            <!-- Poin 2 -->
+                            <div class="flex items-center space-x-4 p-4 rounded-xl backdrop-blur-sm transition border
+                                        bg-white border-emerald-100 shadow-sm
+                                        dark:bg-white/10 dark:border-white/10 dark:shadow-none dark:hover:bg-white/20">
+                                
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0
+                                            bg-yellow-100 text-yellow-700
+                                            dark:bg-yellow-400 dark:text-yellow-900">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <span class="font-bold text-gray-700 dark:text-white text-sm">QRIS Otomatis (Semua E-Wallet)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Kiri -->
+                    <div class="mt-12 text-center pt-6 border-t border-emerald-200 dark:border-white/20">
+                        <p class="text-xs uppercase tracking-widest mb-4 font-semibold text-gray-500 dark:text-emerald-100/70">Metode Pembayaran</p>
+                        <div class="flex justify-center gap-6 text-2xl transition-all duration-500
+                                    text-gray-400 hover:text-gray-600 hover:grayscale-0 grayscale
+                                    dark:text-emerald-200/80 dark:hover:text-white">
+                            <i class="fab fa-cc-visa"></i>
+                            <i class="fas fa-university"></i>
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Form -->
+                <div class="md:w-7/12 p-8 md:p-12 bg-white dark:bg-slate-800 transition-colors duration-300">
+                    <h4 class="text-2xl font-bold mb-8 text-gray-800 dark:text-white flex items-center gap-2">
+                        <span class="w-1 h-8 bg-emerald-500 rounded-full"></span> Isi Nominal Sedekah
+                    </h4>
+                    
+                    <!-- Preset Amounts -->
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <button onclick="setAmount(10000)" class="group border-2 border-gray-100 dark:border-gray-700 py-3 rounded-xl hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all text-sm font-bold text-gray-600 dark:text-gray-300 relative overflow-hidden">
+                            <span class="relative z-10 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Rp 10.000</span>
+                        </button>
+                        <button onclick="setAmount(50000)" class="group border-2 border-gray-100 dark:border-gray-700 py-3 rounded-xl hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all text-sm font-bold text-gray-600 dark:text-gray-300 relative overflow-hidden">
+                            <span class="relative z-10 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Rp 50.000</span>
+                        </button>
+                        <button onclick="setAmount(100000)" class="group border-2 border-emerald-100 dark:border-gray-700 py-3 rounded-xl hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all text-sm font-bold text-gray-600 dark:text-gray-300 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-yellow-400 text-[9px] px-2 py-0.5 rounded-bl-lg font-bold text-yellow-900">POPULER</div>
+                            <span class="relative z-10 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Rp 100.000</span>
+                        </button>
+                    </div>
+
+                    <!-- Custom Amount -->
+                    <div class="mb-8">
+                        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Nominal Lainnya</label>
+                        <div class="relative group">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-500 font-bold text-lg group-focus-within:text-emerald-600">Rp</span>
+                            <input type="number" id="customAmount" class="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-gray-700 rounded-2xl focus:outline-none focus:border-emerald-500 transition-colors font-bold text-xl text-gray-800 dark:text-white placeholder-gray-300" placeholder="0">
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button onclick="generateQR()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-4 rounded-2xl font-bold text-lg shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                        Bismillah, Lanjut <i class="fas fa-arrow-right"></i>
+                    </button>
+
+                    <!-- QRIS Area -->
+                    <div id="qrisArea" class="hidden mt-8 text-center border-2 border-dashed border-emerald-200 dark:border-emerald-900/50 rounded-2xl p-6 animate-fade-in bg-emerald-50/50 dark:bg-emerald-900/10">
+                        <div class="bg-white dark:bg-white p-4 inline-block rounded-2xl shadow-xl mx-auto mb-4 relative">
+                            <div class="absolute inset-0 border-2 border-emerald-500 rounded-2xl animate-pulse"></div>
+                            <!-- GAMBAR QRIS -->
+                            <img src="qris.jpg" alt="Scan QRIS" class="w-48 h-auto block rounded-lg">
+                        </div>
+                        
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-1">Total yang harus di transfer:</p>
+                        <p class="font-mono font-bold text-3xl text-emerald-600 dark:text-emerald-400 mb-4 tracking-tight" id="displayAmount">Rp 0</p>
+                        
+                        <button onclick="finishDonation()" class="text-sm font-semibold text-gray-500 hover:text-emerald-600 underline decoration-2 underline-offset-4 decoration-emerald-200 hover:decoration-emerald-500 transition-all">
+                            Saya sudah transfer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 text-white pt-20 pb-10 border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <h3 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center text-lg">
+                            <i class="fas fa-kaaba"></i>
+                        </div>
+                        Sedekah Jariyah
+                    </h3>
+                    <p class="text-gray-400 mb-6 max-w-sm leading-relaxed">
+                        Platform donasi terpercaya. Kami menjembatani kebaikan Anda untuk mereka yang membutuhkan dengan amanah dan transparan.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-emerald-400">Navigasi</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><a href="#beranda" class="hover:text-white hover:translate-x-2 transition-transform inline-block">Beranda</a></li>
+                        <li><a href="#hadits" class="hover:text-white hover:translate-x-2 transition-transform inline-block">Keutamaan</a></li>
+                        <li><a href="#donasi" class="hover:text-white hover:translate-x-2 transition-transform inline-block">Donasi</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6 text-emerald-400">Hubungi Kami</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1.5 text-emerald-600"></i> <span>Jakarta Selatan, Indonesia</span></li>
+                        <li class="flex items-center gap-3"><i class="fas fa-envelope text-emerald-600"></i> info@sedekahjariyah.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-900 pt-8 text-center text-gray-600 text-sm">
+                <p>&copy; 2023 Amanah Kebaikan Bersama. <br class="md:hidden"> Dibuat dengan <i class="fas fa-heart text-red-600 animate-pulse"></i> untuk Ummat.</p>
             </div>
         </div>
     </footer>
 
-    <a href="#top" id="back-to-top-btn" aria-label="Kembali ke atas"><i class="fa-solid fa-arrow-up"></i></a>
+    <!-- Libraries JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Back to Top Button
-            const backToTopBtn = document.getElementById('back-to-top-btn');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 400) {
-                    backToTopBtn.classList.add('visible');
-                } else {
-                    backToTopBtn.classList.remove('visible');
-                }
-            }, { passive: true });
+        // Init AOS (Animate On Scroll)
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
         });
 
-        // Copy to Clipboard Function
-        function copyToClipboard(elementId, button) {
-            const textToCopy = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fa-solid fa-check"></i> Disalin';
-                button.style.backgroundColor = 'var(--brand-green)';
-                button.style.color = '#fff';
+        // Loading Screen Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
                 setTimeout(() => {
-                    button.innerHTML = originalText;
-                    button.style.backgroundColor = '';
-                    button.style.color = '';
-                }, 2000);
-            }).catch(err => { console.error('Gagal menyalin:', err); });
+                    loader.style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // --- SISTEM BINTANG LANJUTAN ---
+
+        // 1. Bintang Statis (Berkedip)
+        function createStaticStars() {
+            const container = document.getElementById('stars-container');
+            const starCount = 80; 
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const x = Math.random() * 100;
+                const y = Math.random() * 80; 
+                const size = Math.random() * 2 + 1;
+                const duration = Math.random() * 3 + 2;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.setProperty('--duration', `${duration}s`);
+                container.appendChild(star);
+            }
         }
+
+        // 2. Bintang Jatuh (Shooting Star Logic)
+        function createShootingStar() {
+            const container = document.getElementById('shooting-stars-container');
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            
+            const startX = Math.random() * 60 + 20; 
+            const startY = Math.random() * 40; 
+            
+            star.style.left = `${startX}%`;
+            star.style.top = `${startY}%`;
+            
+            const rotate = 45 + (Math.random() * 10 - 5);
+            star.style.transform = `rotateZ(${rotate}deg)`;
+
+            container.appendChild(star);
+
+            setTimeout(() => {
+                star.remove();
+                spawnNewStarAt(startX + 10, startY + 10);
+            }, 3000);
+        }
+
+        function spawnNewStarAt(x, y) {
+            const container = document.getElementById('stars-container');
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `3px`;
+            star.style.height = `3px`;
+            star.style.setProperty('--duration', `1s`); 
+            star.style.boxShadow = `0 0 10px #facc15`; 
+            
+            container.appendChild(star);
+        }
+
+        createStaticStars();
+        
+        (function loopShootingStars() {
+            const rand = Math.round(Math.random() * (4000 - 1000)) + 1000;
+            setTimeout(function() {
+                createShootingStar();
+                loopShootingStars();
+            }, rand);
+        }());
+
+        // --- LOGIKA UTAMA WEBSITE ---
+
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        const html = document.documentElement;
+
+        if (!localStorage.getItem('theme')) {
+            localStorage.setItem('theme', 'dark');
+        }
+
+        if (localStorage.getItem('theme') === 'dark') {
+            html.classList.add('dark');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            if (html.classList.contains('dark')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.querySelector('div').classList.add('bg-white/80', 'dark:bg-slate-900/80', 'backdrop-blur-xl', 'shadow-lg');
+                nav.querySelector('div').classList.remove('mt-4', 'rounded-2xl');
+            } else {
+                nav.querySelector('div').classList.remove('bg-white/80', 'dark:bg-slate-900/80', 'backdrop-blur-xl', 'shadow-lg');
+                nav.querySelector('div').classList.add('mt-4', 'rounded-2xl');
+            }
+        });
+
+        const customInput = document.getElementById('customAmount');
+        const displayAmount = document.getElementById('displayAmount');
+        const qrisArea = document.getElementById('qrisArea');
+        let currentAmount = 0;
+
+        function setAmount(amount) {
+            currentAmount = amount;
+            customInput.value = amount;
+            customInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function generateQR() {
+            const inputVal = customInput.value;
+            if (inputVal && inputVal > 0) {
+                currentAmount = inputVal;
+            }
+
+            if (currentAmount < 1000) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Mohon Maaf',
+                    text: 'Minimal donasi adalah Rp 1.000',
+                    confirmButtonColor: '#10b981',
+                    background: html.classList.contains('dark') ? '#1e293b' : '#fff',
+                    color: html.classList.contains('dark') ? '#fff' : '#000'
+                });
+                return;
+            }
+
+            qrisArea.classList.remove('hidden');
+            displayAmount.innerText = "Rp " + parseInt(currentAmount).toLocaleString('id-ID');
+            qrisArea.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function finishDonation() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Alhamdulillah!',
+                html: 'Terima kasih telah menyalurkan donasi.<br>Semoga menjadi <b>amal jariyah</b> yang tak terputus.',
+                confirmButtonText: 'Aamiin',
+                confirmButtonColor: '#10b981',
+                background: html.classList.contains('dark') ? '#1e293b' : '#fff',
+                color: html.classList.contains('dark') ? '#fff' : '#000'
+            }).then(() => {
+                qrisArea.classList.add('hidden');
+                customInput.value = '';
+                currentAmount = 0;
+            });
+        }
+        
+        const mobileBtn = document.getElementById('mobileBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
     </script>
 </body>
 </html>
