@@ -58,25 +58,21 @@
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
         }
 
-        /* --- Shimmer Effects (ARABIC FIXED) --- */
+        /* --- ARABIC TEXT --- */
         .shimmer-arabic {
             font-family: 'Amiri', serif;
             direction: rtl;
-            
-            /* PENGATURAN ARAB AGAR TIDAK TERPOTONG */
             line-height: 3.8 !important; 
             padding-top: 20px;         
             padding-bottom: 20px;      
             display: inline-block;     
-            
-            /* Gradient Hijau yang lebih pekat agar terbaca di background terang */
-            background: linear-gradient(110deg, #047857 20%, #34d399 30%, #065f46 50%, #34d399 70%, #047857 80%);
+            background: linear-gradient(110deg, #059669 20%, #34d399 30%, #ffffff 50%, #34d399 70%, #059669 80%);
             background-size: 200% auto;
             color: transparent;
             -webkit-background-clip: text;
             background-clip: text;
             animation: shine 4s linear infinite;
-            text-shadow: 0px 4px 20px rgba(255, 255, 255, 0.5); /* Glow putih di belakang teks */
+            text-shadow: 0px 4px 20px rgba(16, 185, 129, 0.2); 
             font-weight: 700;
         }
 
@@ -88,127 +84,116 @@
             background-clip: text;
             animation: shine 3s linear infinite;
             font-weight: 600;
-            text-shadow: 0px 2px 10px rgba(0,0,0,0.1);
         }
 
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* --- BACKGROUND TRANSITION (SIANG vs MALAM) --- */
+        /* --- HEADER BACKGROUND --- */
         .header-bg {
-            position: relative;
-            overflow: hidden;
-            transition: background 1s ease-in-out;
+            position: relative; overflow: hidden; transition: background 1.5s ease-in-out; min-height: 100vh;
         }
-        
-        /* Light Mode: Langit Biru Cerah */
-        html:not(.dark) .header-bg {
-            background: linear-gradient(to bottom, #38bdf8 0%, #bae6fd 100%);
+        html:not(.dark) .header-bg { background: linear-gradient(to bottom, #38bdf8 0%, #bae6fd 100%); }
+        html.dark .header-bg { background: radial-gradient(ellipse at bottom, #020617 0%, #1e1b4b 100%); }
+
+        /* --- FIX TOMBOL DONASI (CSS KHUSUS) --- */
+        /* Tombol Default (Mode Siang) */
+        #btn-donasi-nav {
+            background-color: #ffffff !important;
+            color: #059669 !important; /* Emerald Text */
+            border: 1px solid #ecfdf5 !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        /* Dark Mode: Langit Malam Gelap */
-        html.dark .header-bg {
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        /* Tombol Mode Malam (Dipaksa berubah) */
+        html.dark #btn-donasi-nav {
+            background-color: transparent !important;
+            background-image: linear-gradient(to right, #10b981, #0d9488) !important; /* Gradient Hijau */
+            color: #ffffff !important; /* Teks Putih */
+            border: none !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); /* Glow Hijau */
         }
 
-        /* --- NIGHT ELEMENTS --- */
+        /* --- RAINBOW --- */
+        .rainbow-wrapper {
+            position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);
+            width: 800px; height: 400px; pointer-events: none; opacity: 0; transition: opacity 1.5s ease; z-index: 0;
+        }
+        html:not(.dark) .rainbow-wrapper { opacity: 1; }
+        .rainbow {
+            width: 100%; height: 200%; border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, transparent 55%, rgba(167, 139, 250, 0.6) 58%, rgba(96, 165, 250, 0.6) 61%, rgba(52, 211, 153, 0.6) 64%, rgba(251, 191, 36, 0.6) 67%, rgba(248, 113, 113, 0.6) 70%, transparent 75%);
+            filter: blur(8px);
+        }
+
+        /* --- AURORA BOREALIS --- */
+        .aurora-wrapper {
+            position: absolute; top: 0; left: 0; width: 100%; height: 60%; pointer-events: none;
+            opacity: 0; transition: opacity 1.5s ease; z-index: 1; overflow: hidden;
+            -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+        }
+        html.dark .aurora-wrapper { opacity: 1; }
+
+        .aurora-beam {
+            position: absolute; top: -20%; width: 40%; height: 150%;
+            filter: blur(25px); opacity: 0.7; mix-blend-mode: color-dodge;
+            transform-origin: top center; animation: auroraMove infinite alternate ease-in-out;
+        }
+        .beam-1 { left: 10%; background: linear-gradient(180deg, transparent 0%, rgba(52, 211, 153, 0.8) 30%, rgba(52, 211, 153, 0) 100%); transform: skewX(-15deg); animation-duration: 8s; }
+        .beam-2 { left: 40%; background: linear-gradient(180deg, transparent 0%, rgba(167, 139, 250, 0.8) 30%, rgba(167, 139, 250, 0) 100%); transform: skewX(-5deg); animation-duration: 12s; animation-delay: -2s; }
+        .beam-3 { right: 10%; background: linear-gradient(180deg, transparent 0%, rgba(56, 189, 248, 0.8) 30%, rgba(56, 189, 248, 0) 100%); transform: skewX(10deg); animation-duration: 10s; animation-delay: -5s; }
+        @keyframes auroraMove { 0% { transform: skewX(-10deg) translateX(-30px) scaleY(1); } 100% { transform: skewX(5deg) translateX(30px) scaleY(1.1); } }
+
+        /* --- CELESTIAL BODIES --- */
+        .celestial-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+        .sun {
+            position: absolute; width: 120px; height: 120px; right: 10%;
+            background: radial-gradient(circle, #fcd34d 0%, #fbbf24 60%, #f59e0b 100%);
+            border-radius: 50%; box-shadow: 0 0 60px rgba(251, 191, 36, 0.8);
+            transition: top 1.5s cubic-bezier(0.4, 0, 0.2, 1); animation: sunSpin 60s linear infinite;
+        }
         .moon {
-            width: 100px; height: 100px;
+            position: absolute; width: 100px; height: 100px; right: 10%;
             background: transparent; border-radius: 50%;
-            box-shadow: -15px 15px 0 5px #fde047;
-            position: absolute; top: 50px; right: 50px;
-            filter: drop-shadow(0 0 25px rgba(253, 224, 71, 0.6));
-            animation: moonFloat 8s ease-in-out infinite;
-            z-index: 2;
+            box-shadow: -20px 20px 0 0 #fde047;
+            filter: drop-shadow(0 0 30px rgba(253, 224, 71, 0.5));
+            transition: top 1.5s cubic-bezier(0.4, 0, 0.2, 1); animation: moonFloat 4s ease-in-out infinite;
         }
-        @keyframes moonFloat {
-            0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 25px rgba(253, 224, 71, 0.6)); }
-            50% { transform: translateY(-15px); filter: drop-shadow(0 0 40px rgba(253, 224, 71, 0.9)); }
-        }
+        html:not(.dark) .sun { top: 80px; } html:not(.dark) .moon { top: 120%; }
+        html.dark .sun { top: 120%; } html.dark .moon { top: 80px; }
+        @keyframes sunSpin { to { transform: rotate(360deg); } }
+        @keyframes moonFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        .star {
-            position: absolute; background: white; border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite;
-            animation-delay: var(--delay); z-index: 1;
-        }
-        @keyframes twinkle {
-            0% { opacity: 0.2; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 5px white; } 
-            100% { opacity: 0.2; transform: scale(0.5); }
-        }
+        /* --- STARS & CLOUDS --- */
+        .stars-wrapper { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1s; z-index: 0; }
+        html.dark .stars-wrapper { opacity: 1; }
+        .star { position: absolute; background: white; border-radius: 50%; animation: twinkle var(--duration) ease-in-out infinite; }
+        @keyframes twinkle { 0% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 5px white; } 100% { opacity: 0.3; transform: scale(0.8); } }
 
-        /* Bintang Jatuh Biasa (Putih) */
-        .shooting-star {
-            position: absolute; left: 50%; top: 50%; height: 2px;
-            background: linear-gradient(-45deg, rgba(255, 255, 255, 1), rgba(0, 0, 255, 0));
-            border-radius: 999px; filter: drop-shadow(0 0 6px rgba(105, 155, 255, 1));
-            animation: tail 3000ms ease-in-out infinite, shooting 3000ms ease-in-out infinite; z-index: 1;
-        }
-        .shooting-star::before {
-            content: ''; position: absolute; top: calc(50% - 1px); right: 0; height: 2px;
-            background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(255, 255, 255, 1), rgba(0, 0, 255, 0));
-            transform: translateX(50%) rotateZ(45deg); border-radius: 100%;
-            animation: shining 3000ms ease-in-out infinite;
-        }
+        .clouds-wrapper { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1s; z-index: 2; }
+        html:not(.dark) .clouds-wrapper { opacity: 1; }
+        .cloud { position: absolute; background: rgba(255, 255, 255, 0.7); border-radius: 50px; animation: floatCloud linear infinite; filter: blur(3px); }
+        .cloud::after, .cloud::before { content: ''; position: absolute; background: inherit; border-radius: 50%; }
+        @keyframes floatCloud { from { transform: translateX(-150%); } to { transform: translateX(100vw); } }
+        .cloud-1 { width: 120px; height: 50px; top: 20%; animation-duration: 40s; }
+        .cloud-1::after { width: 60px; height: 60px; top: -30px; left: 15px; }
+        .cloud-1::before { width: 50px; height: 50px; top: -20px; left: 50px; }
+        .cloud-2 { width: 160px; height: 60px; top: 40%; animation-duration: 55s; animation-delay: -15s; opacity: 0.6; }
+        .cloud-2::after { width: 70px; height: 70px; top: -35px; left: 20px; }
 
-        /* --- BLUE COMET --- */
-        .blue-comet {
-            position: absolute; left: 50%; top: 50%; height: 3px; 
-            background: linear-gradient(-45deg, rgba(34, 211, 238, 1), rgba(0, 0, 255, 0));
-            border-radius: 999px; 
-            filter: drop-shadow(0 0 10px rgba(34, 211, 238, 1)); 
-            animation: tail 2500ms ease-in-out infinite, shooting 2500ms ease-in-out infinite; z-index: 1;
-        }
-        .blue-comet::before {
-            content: ''; position: absolute; top: calc(50% - 1.5px); right: 0; height: 3px;
-            background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(34, 211, 238, 1), rgba(0, 0, 255, 0));
-            transform: translateX(50%) rotateZ(45deg); border-radius: 100%;
-            animation: shining 2500ms ease-in-out infinite;
-        }
-
+        /* --- COMETS --- */
+        .shooting-star { position: absolute; left: 50%; top: 50%; height: 2px; background: linear-gradient(-45deg, rgba(255, 255, 255, 1), rgba(0, 0, 255, 0)); border-radius: 999px; filter: drop-shadow(0 0 6px rgba(105, 155, 255, 1)); animation: tail 3000ms ease-in-out infinite, shooting 3000ms ease-in-out infinite; z-index: 1; }
+        .shooting-star::before { content: ''; position: absolute; top: calc(50% - 1px); right: 0; height: 2px; background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(255, 255, 255, 1), rgba(0, 0, 255, 0)); transform: translateX(50%) rotateZ(45deg); border-radius: 100%; animation: shining 3000ms ease-in-out infinite; }
+        .blue-comet { position: absolute; left: 50%; top: 50%; height: 3px; background: linear-gradient(-45deg, rgba(34, 211, 238, 1), rgba(0, 0, 255, 0)); border-radius: 999px; filter: drop-shadow(0 0 10px rgba(34, 211, 238, 1)); animation: tail 2500ms ease-in-out infinite, shooting 2500ms ease-in-out infinite; z-index: 1; }
+        .blue-comet::before { content: ''; position: absolute; top: calc(50% - 1.5px); right: 0; height: 3px; background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(34, 211, 238, 1), rgba(0, 0, 255, 0)); transform: translateX(50%) rotateZ(45deg); border-radius: 100%; animation: shining 2500ms ease-in-out infinite; }
         @keyframes tail { 0% { width: 0; } 30% { width: 150px; } 100% { width: 0; } }
         @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(350px); } }
         @keyframes shining { 0% { width: 0; } 50% { width: 30px; } 100% { width: 0; } }
 
-        /* --- DAY ELEMENTS --- */
-        .sun {
-            position: absolute; top: 60px; right: 60px; width: 120px; height: 120px;
-            background: radial-gradient(circle, #fcd34d 0%, #fbbf24 60%, #f59e0b 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 60px rgba(251, 191, 36, 0.8), 0 0 100px rgba(251, 191, 36, 0.4);
-            z-index: 2; animation: sunPulse 4s ease-in-out infinite;
-        }
-        @keyframes sunPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 60px rgba(251, 191, 36, 0.8); }
-            50% { transform: scale(1.05); box-shadow: 0 0 80px rgba(251, 191, 36, 1); }
-        }
-
-        .cloud {
-            position: absolute; background: rgba(255, 255, 255, 0.8); border-radius: 50px; z-index: 1;
-            animation: floatCloud linear infinite;
-        }
-        .cloud::after, .cloud::before { content: ''; position: absolute; background: inherit; border-radius: 50%; }
-        
-        @keyframes floatCloud { from { transform: translateX(-150%); } to { transform: translateX(100vw); } }
-
-        .cloud-1 { width: 100px; height: 40px; top: 15%; animation-duration: 25s; opacity: 0.9; }
-        .cloud-1::after { width: 50px; height: 50px; top: -25px; left: 15px; }
-        .cloud-1::before { width: 40px; height: 40px; top: -15px; left: 45px; }
-
-        .cloud-2 { width: 140px; height: 50px; top: 30%; animation-duration: 35s; animation-delay: -10s; opacity: 0.8; }
-        .cloud-2::after { width: 60px; height: 60px; top: -30px; left: 20px; }
-        .cloud-2::before { width: 50px; height: 50px; top: -20px; left: 60px; }
-
-        .cloud-3 { width: 90px; height: 35px; top: 50%; animation-duration: 20s; animation-delay: -5s; opacity: 0.7; }
-        .cloud-3::after { width: 40px; height: 40px; top: -20px; left: 10px; }
-
-        /* --- Scrollbar & Loader --- */
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #1e293b; }
         ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #667eea, #764ba2); border-radius: 5px; }
-        .loader-wrapper {
-            position: fixed; inset: 0; background: #0f172a; z-index: 9999;
-            display: flex; justify-content: center; align-items: center; transition: opacity 0.5s;
-        }
+        .loader-wrapper { position: fixed; inset: 0; background: #0f172a; z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
@@ -242,18 +227,14 @@
                 <a href="#hadits" class="hover:text-emerald-500 transition">Keutamaan</a>
                 <a href="#program" class="hover:text-emerald-500 transition">Program</a>
                 
-                <!-- FIX TOMBOL NAVBAR DISINI -->
-                <a href="#donasi" class="
-                    px-6 py-2.5 rounded-full font-semibold transition transform hover:-translate-y-0.5 shadow-lg
-                    bg-white text-emerald-600 hover:bg-emerald-50 
-                    dark:bg-gradient-to-r dark:from-emerald-500 dark:to-teal-600 dark:text-white
-                ">
+                <!-- TOMBOL NAVBAR (MENGGUNAKAN ID KHUSUS UNTUK FIX) -->
+                <a href="#donasi" id="btn-donasi-nav" class="px-6 py-2.5 rounded-full font-semibold transition transform hover:-translate-y-0.5 shadow-lg">
                     Donasi Sekarang
                 </a>
             </div>
             <button class="md:hidden text-2xl" id="mobileBtn"><i class="fas fa-bars"></i></button>
         </div>
-        <!-- Mobile Menu -->
+        
         <div id="mobileMenu" class="hidden absolute top-full left-0 w-full glass-card p-6 md:hidden flex-col space-y-4 shadow-xl border-t border-gray-200 dark:border-gray-700">
             <a href="#beranda" class="block hover:text-emerald-500">Beranda</a>
             <a href="#hadits" class="block hover:text-emerald-500">Keutamaan</a>
@@ -265,20 +246,32 @@
     <!-- Hero Section -->
     <header id="beranda" class="header-bg min-h-screen flex items-center relative pt-24 overflow-hidden">
         
-        <!-- NIGHT ELEMENTS (Dark Mode Only) -->
-        <div class="absolute inset-0 hidden dark:block">
-            <div id="stars-container"></div>
-            <div id="shooting-stars-container"></div>
-            <div id="blue-comet-container"></div>
+        <!-- CELESTIAL BODIES -->
+        <div class="celestial-container">
+            <div class="sun"></div>
             <div class="moon"></div>
         </div>
 
-        <!-- DAY ELEMENTS (Light Mode Only) -->
-        <div class="absolute inset-0 block dark:hidden">
-            <div class="sun"></div>
+        <!-- NIGHT LAYERS: Stars, Comets & Aurora -->
+        <div class="stars-wrapper">
+            <div id="stars-container"></div>
+            <div id="shooting-stars-container"></div>
+            <div id="blue-comet-container"></div>
+            
+            <div class="aurora-wrapper">
+                <div class="aurora-beam beam-1"></div>
+                <div class="aurora-beam beam-2"></div>
+                <div class="aurora-beam beam-3"></div>
+            </div>
+        </div>
+
+        <!-- DAY LAYERS: Rainbow & Clouds -->
+        <div class="clouds-wrapper">
+            <div class="rainbow-wrapper">
+                <div class="rainbow"></div>
+            </div>
             <div class="cloud cloud-1"></div>
             <div class="cloud cloud-2"></div>
-            <div class="cloud cloud-3"></div>
         </div>
         
         <div class="container mx-auto px-6 relative z-10 text-center text-white">
@@ -287,18 +280,17 @@
                     <span class="animate-pulse text-yellow-400">✨</span> Mari Berlomba dalam Kebaikan
                 </div>
                 
-                <h1 class="text-4xl md:text-6xl font-bold mb-8 leading-tight drop-shadow-xl">
+                <h1 class="text-4xl md:text-6xl font-bold mb-8 leading-tight drop-shadow-xl relative z-10">
                     Investasi Abadi <br> 
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-100 dark:from-yellow-200 dark:via-yellow-400 dark:to-yellow-200" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
                         Menuju Surga-Nya
                     </span>
                 </h1>
                 
-                <!-- Kartu Ayat (FIX KETERBACAAN MODE SIANG) -->
                 <div class="glass-card 
                     bg-white/40 border-white/50 shadow-2xl 
                     dark:bg-black/30 dark:border-white/10
-                    p-8 rounded-3xl max-w-4xl mx-auto mb-10 transform hover:scale-[1.01] transition duration-500 relative overflow-hidden group">
+                    p-8 rounded-3xl max-w-4xl mx-auto mb-10 transform hover:scale-[1.01] transition duration-500 relative overflow-hidden group z-10">
                     
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Islamic_Pattern_element.svg/1024px-Islamic_Pattern_element.svg.png" class="absolute top-0 right-0 w-24 h-24 opacity-20 -mr-4 -mt-4 rotate-90 filter invert">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Islamic_Pattern_element.svg/1024px-Islamic_Pattern_element.svg.png" class="absolute bottom-0 left-0 w-24 h-24 opacity-20 -ml-4 -mb-4 -rotate-90 filter invert">
@@ -311,14 +303,13 @@
                     
                     <div class="w-24 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent mx-auto mb-6"></div>
                     
-                    <!-- Text Color Adaptive: Dark Grey di Siang, Light Grey di Malam -->
                     <p class="shimmer-gold text-lg md:text-xl italic">
                         "Perumpamaan (nafkah yang dikeluarkan oleh) orang-orang yang menafkahkan hartanya di jalan Allah adalah serupa dengan sebutir benih yang menumbuhkan tujuh bulir, pada tiap-tiap bulir seratus biji..." <br>
                         <span class="text-sm font-normal text-gray-800 dark:text-gray-300 mt-2 block font-bold">(QS. Al-Baqarah: 261)</span>
                     </p>
                 </div>
 
-                <div class="flex flex-col md:flex-row justify-center gap-5">
+                <div class="flex flex-col md:flex-row justify-center gap-5 relative z-10">
                     <a href="#donasi" class="relative overflow-hidden bg-gradient-to-r from-yellow-500 to-amber-600 text-white px-10 py-4 rounded-full font-bold shadow-[0_0_20px_rgba(245,158,11,0.6)] hover:shadow-[0_0_30px_rgba(245,158,11,0.8)] transition transform hover:-translate-y-1 group">
                         <span class="relative z-10 flex items-center gap-3">
                             <i class="fas fa-heart text-red-200 animate-pulse"></i> Sedekah Sekarang
@@ -498,8 +489,8 @@
                 <div>
                     <h4 class="font-bold text-lg mb-6 text-emerald-400">Hubungi Kami</h4>
                     <ul class="space-y-4 text-gray-400">
-                        <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1.5 text-emerald-600"></i> <span>Jakarta Selatan, Indonesia</span></li>
-                        <li class="flex items-center gap-3"><i class="fas fa-envelope text-emerald-600"></i> info@sedekahjariyah.com</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1.5 text-emerald-600"></i> <span>magelang,mungkid, Indonesia</span></li>
+                        <li class="flex items-center gap-3"><i class="fas fa-envelope text-emerald-600"></i> info@thisfunny.com facebook:ultramansaringan</li>
                     </ul>
                 </div>
             </div>
@@ -518,7 +509,7 @@
             setTimeout(() => { loader.style.opacity = '0'; setTimeout(() => { loader.style.display = 'none'; }, 500); }, 1000);
         });
 
-        // 1. STAR SYSTEM (150 STARS)
+        // 1. STAR SYSTEM
         function createStaticStars() {
             const container = document.getElementById('stars-container');
             for (let i = 0; i < 150; i++) {
@@ -534,7 +525,7 @@
             }
         }
 
-        // 2. Shooting Stars (Putih)
+        // 2. SHOOTING STARS
         function createShootingStar() {
             const container = document.getElementById('shooting-stars-container');
             const star = document.createElement('div');
@@ -548,7 +539,7 @@
             setTimeout(() => { star.remove(); }, 3000);
         }
 
-        // 3. BLUE COMET (Komet Biru)
+        // 3. BLUE COMET
         function createBlueComet() {
             const container = document.getElementById('blue-comet-container');
             const comet = document.createElement('div');
@@ -564,22 +555,8 @@
         }
 
         createStaticStars();
-        
-        (function loopShootingStars() { 
-            const rand = Math.round(Math.random() * 4000) + 2000;
-            setTimeout(function() { 
-                createShootingStar(); 
-                loopShootingStars(); 
-            }, rand); 
-        }());
-
-        (function loopBlueComet() { 
-            const rand = Math.round(Math.random() * 8000) + 5000; 
-            setTimeout(function() { 
-                createBlueComet(); 
-                loopBlueComet(); 
-            }, rand); 
-        }());
+        (function loopShootingStars() { setTimeout(function() { createShootingStar(); loopShootingStars(); }, 3000); }());
+        (function loopBlueComet() { setTimeout(function() { createBlueComet(); loopBlueComet(); }, 7000); }());
 
         // --- THEME & LOGIC ---
         const themeToggle = document.getElementById('themeToggle');
