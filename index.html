@@ -96,21 +96,19 @@
         html.dark .header-bg { background: radial-gradient(ellipse at bottom, #020617 0%, #1e1b4b 100%); }
 
         /* --- FIX TOMBOL DONASI (CSS KHUSUS) --- */
-        /* Tombol Default (Mode Siang) */
         #btn-donasi-nav {
             background-color: #ffffff !important;
-            color: #059669 !important; /* Emerald Text */
+            color: #059669 !important;
             border: 1px solid #ecfdf5 !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        /* Tombol Mode Malam (Dipaksa berubah) */
         html.dark #btn-donasi-nav {
             background-color: transparent !important;
-            background-image: linear-gradient(to right, #10b981, #0d9488) !important; /* Gradient Hijau */
-            color: #ffffff !important; /* Teks Putih */
+            background-image: linear-gradient(to right, #10b981, #0d9488) !important;
+            color: #ffffff !important;
             border: none !important;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); /* Glow Hijau */
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
         }
 
         /* --- RAINBOW --- */
@@ -181,14 +179,48 @@
         .cloud-2 { width: 160px; height: 60px; top: 40%; animation-duration: 55s; animation-delay: -15s; opacity: 0.6; }
         .cloud-2::after { width: 70px; height: 70px; top: -35px; left: 20px; }
 
-        /* --- COMETS --- */
-        .shooting-star { position: absolute; left: 50%; top: 50%; height: 2px; background: linear-gradient(-45deg, rgba(255, 255, 255, 1), rgba(0, 0, 255, 0)); border-radius: 999px; filter: drop-shadow(0 0 6px rgba(105, 155, 255, 1)); animation: tail 3000ms ease-in-out infinite, shooting 3000ms ease-in-out infinite; z-index: 1; }
-        .shooting-star::before { content: ''; position: absolute; top: calc(50% - 1px); right: 0; height: 2px; background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(255, 255, 255, 1), rgba(0, 0, 255, 0)); transform: translateX(50%) rotateZ(45deg); border-radius: 100%; animation: shining 3000ms ease-in-out infinite; }
-        .blue-comet { position: absolute; left: 50%; top: 50%; height: 3px; background: linear-gradient(-45deg, rgba(34, 211, 238, 1), rgba(0, 0, 255, 0)); border-radius: 999px; filter: drop-shadow(0 0 10px rgba(34, 211, 238, 1)); animation: tail 2500ms ease-in-out infinite, shooting 2500ms ease-in-out infinite; z-index: 1; }
-        .blue-comet::before { content: ''; position: absolute; top: calc(50% - 1.5px); right: 0; height: 3px; background: linear-gradient(-45deg, rgba(0, 0, 255, 0), rgba(34, 211, 238, 1), rgba(0, 0, 255, 0)); transform: translateX(50%) rotateZ(45deg); border-radius: 100%; animation: shining 2500ms ease-in-out infinite; }
-        @keyframes tail { 0% { width: 0; } 30% { width: 150px; } 100% { width: 0; } }
-        @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(350px); } }
-        @keyframes shining { 0% { width: 0; } 50% { width: 30px; } 100% { width: 0; } }
+        /* --- NEW REALISTIC COMETS (FIXED DIRECTION) --- */
+        .shooting-star { 
+            position: absolute; 
+            height: 2px; 
+            /* FIXED: Gradient dari Transparan (Kiri/Ekor) ke Putih (Kanan/Kepala) */
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%); 
+            border-radius: 999px; 
+            /* Tambah efek glow lebih kuat di kepala */
+            box-shadow: 2px 0px 4px rgba(255, 255, 255, 1);
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.5)); 
+            opacity: 0; 
+            z-index: 1; 
+            animation: shooting-fix var(--duration) linear forwards; 
+        }
+
+        .blue-comet { 
+            position: absolute; 
+            height: 3px; 
+            /* FIXED: Gradient dari Transparan (Ekor) ke Cyan (Kepala) */
+            background: linear-gradient(to right, rgba(0, 0, 255, 0) 0%, rgba(34, 211, 238, 1) 100%); 
+            border-radius: 999px; 
+            box-shadow: 2px 0px 10px rgba(34, 211, 238, 1);
+            filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.8)); 
+            opacity: 0; 
+            z-index: 1; 
+            animation: shooting-fix var(--duration) linear forwards; 
+        }
+
+        /* Animasi Lurus & Cepat (Tanpa Scale yang bikin pusing) */
+        @keyframes shooting-fix {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1; 
+            }
+            100% {
+                transform: translateX(450px); /* Meluncur Jauh ke depan */
+                opacity: 0; /* Memudar di akhir */
+            }
+        }
 
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #1e293b; }
@@ -227,7 +259,6 @@
                 <a href="#hadits" class="hover:text-emerald-500 transition">Keutamaan</a>
                 <a href="#program" class="hover:text-emerald-500 transition">Program</a>
                 
-                <!-- TOMBOL NAVBAR (MENGGUNAKAN ID KHUSUS UNTUK FIX) -->
                 <a href="#donasi" id="btn-donasi-nav" class="px-6 py-2.5 rounded-full font-semibold transition transform hover:-translate-y-0.5 shadow-lg">
                     Donasi Sekarang
                 </a>
@@ -489,8 +520,8 @@
                 <div>
                     <h4 class="font-bold text-lg mb-6 text-emerald-400">Hubungi Kami</h4>
                     <ul class="space-y-4 text-gray-400">
-                        <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1.5 text-emerald-600"></i> <span>magelang,mungkid, Indonesia</span></li>
-                        <li class="flex items-center gap-3"><i class="fas fa-envelope text-emerald-600"></i> info@thisfunny.com facebook:ultramansaringan</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt mt-1.5 text-emerald-600"></i> <span>Jakarta Selatan, Indonesia</span></li>
+                        <li class="flex items-center gap-3"><i class="fas fa-envelope text-emerald-600"></i> info@sedekahjariyah.com</li>
                     </ul>
                 </div>
             </div>
@@ -525,38 +556,70 @@
             }
         }
 
-        // 2. SHOOTING STARS
+        // 2. SHOOTING STARS (REVISED - REALISTIC DIRECTION)
         function createShootingStar() {
             const container = document.getElementById('shooting-stars-container');
             const star = document.createElement('div');
             star.className = 'shooting-star';
-            const startX = Math.random() * 60 + 20; 
-            const startY = Math.random() * 40;
+            
+            // Random Posisi
+            const startX = Math.random() * 100; 
+            const startY = Math.random() * 40; 
+            const width = Math.random() * 100 + 100; // Panjang Ekor
+            const angle = 45 + (Math.random() * 20 - 10); // Sudut
+            const duration = Math.random() * 0.5 + 0.8; // Kecepatan
+
             star.style.left = `${startX}%`; 
             star.style.top = `${startY}%`;
-            star.style.transform = `rotateZ(${45 + (Math.random() * 10 - 5)}deg)`;
+            star.style.width = `${width}px`;
+            star.style.transform = `rotateZ(${angle}deg)`;
+            star.style.setProperty('--duration', `${duration}s`);
+            
             container.appendChild(star);
-            setTimeout(() => { star.remove(); }, 3000);
+            setTimeout(() => { star.remove(); }, duration * 1000);
         }
 
-        // 3. BLUE COMET
+        // 3. BLUE COMET (REVISED - REALISTIC DIRECTION)
         function createBlueComet() {
             const container = document.getElementById('blue-comet-container');
             const comet = document.createElement('div');
             comet.className = 'blue-comet';
-            const startX = Math.random() * 50; 
+            
+            const startX = Math.random() * 80; 
             const startY = Math.random() * 30;
+            const width = Math.random() * 150 + 150; 
+            const angle = 45 + (Math.random() * 10 - 5);
+            const duration = Math.random() * 0.8 + 1.2;
+
             comet.style.left = `${startX}%`; 
             comet.style.top = `${startY}%`;
-            const rotate = 45 + (Math.random() * 10 - 5);
-            comet.style.transform = `rotateZ(${rotate}deg)`;
+            comet.style.width = `${width}px`;
+            comet.style.transform = `rotateZ(${angle}deg)`;
+            comet.style.setProperty('--duration', `${duration}s`);
+            
             container.appendChild(comet);
-            setTimeout(() => { comet.remove(); }, 2500);
+            setTimeout(() => { comet.remove(); }, duration * 1000);
         }
 
         createStaticStars();
-        (function loopShootingStars() { setTimeout(function() { createShootingStar(); loopShootingStars(); }, 3000); }());
-        (function loopBlueComet() { setTimeout(function() { createBlueComet(); loopBlueComet(); }, 7000); }());
+        
+        // Loop Bintang Jatuh (Random Interval)
+        (function loopShootingStars() { 
+            const interval = Math.random() * 2000 + 2000;
+            setTimeout(function() { 
+                createShootingStar(); 
+                loopShootingStars(); 
+            }, interval); 
+        }());
+
+        // Loop Komet Biru (Random Interval)
+        (function loopBlueComet() { 
+            const interval = Math.random() * 7000 + 8000;
+            setTimeout(function() { 
+                createBlueComet(); 
+                loopBlueComet(); 
+            }, interval); 
+        }());
 
         // --- THEME & LOGIC ---
         const themeToggle = document.getElementById('themeToggle');
